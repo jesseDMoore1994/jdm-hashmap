@@ -49,7 +49,7 @@ add_library(jdm-hashmap STATIC ${SOURCES})
 target_include_directories(jdm-hashmap PUBLIC include)
 
 # Link the jdm-log library to the jdm-hashmap library
-target_link_libraries(jdm-hashmap PRIVATE jdm-log)
+target_link_libraries(jdm-hashmap PRIVATE jdm-alloc jdm-array jdm-log)
 
 # Add the test executables
 add_executable(test-jdm-hashmap tests/test-jdm-hashmap.c)
