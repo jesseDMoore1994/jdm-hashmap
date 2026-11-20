@@ -225,6 +225,20 @@ void jdm_hashmap_remove_all(jdm_hashmap_t *map) {
   }
 }
 
+b8 jdm_hashmap_contains_key(jdm_hashmap_t *map, u8 *key) {
+  jdm_hashmap_entry_t *e = map->buckets[get_map_idx(map, key)];
+
+  while(e) {
+    if(map->key_compare(key, e->key) == 0) {
+      return JDM_TRUE;
+    };
+
+    e = e->next;
+  }
+
+  return JDM_FALSE;
+}
+
 sz jdm_hashmap_size(jdm_hashmap_t *map) { return map->size; }
 
 sz jdm_hashmap_capacity(jdm_hashmap_t *map) { return map->capacity; }
@@ -507,14 +521,14 @@ jdm_hashmap_status_t jdm_hashmap_iterator_next(jdm_hashmap_iterator_t it,
   it.prev = it.next;
   it.next = it.next->next; // iterator next then entry next
 
-  if(it.next) {
+  if (it.next) {
     *out = it.prev;
     return JDM_HASHMAP_OK;
   }
 
-  for(sz i = it.bucket_idx + 1; i < it.map->capacity; i++) {
+  for (sz i = it.bucket_idx + 1; i < it.map->capacity; i++) {
     it.next = it.map->buckets[i];
-    if(it.next) {
+    if (it.next) {
       it.bucket_idx = i;
       break;
     }

@@ -45,8 +45,23 @@ static b8 test_jdm_hashmap_element_ops(void) {
   jdm_hashmap_status_t s;
 
   jdm_hashmap_add(map, "a", (u8 *)&(s32){42});
+  if (!jdm_hashmap_contains_key(map, "a")) {
+    JDM_LOG_ERROR("hashmap should contain key 'a'.");
+    destroy_test_ctx(ctx);
+    return JDM_FALSE;
+  }
   jdm_hashmap_add(map, "b", (u8 *)&(s32){43});
+  if (!jdm_hashmap_contains_key(map, "b")) {
+    JDM_LOG_ERROR("hashmap should contain key 'b'.");
+    destroy_test_ctx(ctx);
+    return JDM_FALSE;
+  }
   jdm_hashmap_add(map, "c", (u8 *)&(s32){44});
+  if (!jdm_hashmap_contains_key(map, "c")) {
+    JDM_LOG_ERROR("hashmap should contain key 'c'.");
+    destroy_test_ctx(ctx);
+    return JDM_FALSE;
+  }
 
   if (jdm_hashmap_size(map) != 3) {
     JDM_LOG_ERROR("hashmap size is not expected size.");
@@ -240,7 +255,7 @@ static b8 test_jdm_hashmap_iterator(void) {
   s32 *v = jdm_alloc(alloc, sizeof(s32));
   jdm_hashmap_iterator_next(it, &kv);
   jdm_hashmap_iterator_remove(it, (u8 **)&v);
-  if(*v != 43) {
+  if (*v != 43) {
     JDM_LOG_ERROR("v not equal to 43");
     jdm_free(alloc, v);
     destroy_test_ctx(ctx);
