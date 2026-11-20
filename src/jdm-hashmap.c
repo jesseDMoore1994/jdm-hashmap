@@ -170,6 +170,7 @@ jdm_hashmap_status_t jdm_hashmap_get(jdm_hashmap_t *map, u8 *key, u8 **out) {
       *out = e->value;
       return JDM_HASHMAP_OK;
     }
+    e = e->next;
   }
 
   JDM_LOG_WARNING("Key to get not found in jdm_hashmap");
