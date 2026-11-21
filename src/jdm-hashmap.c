@@ -513,44 +513,44 @@ jdm_hashmap_iterator_t jdm_hashmap_iterator_create(jdm_hashmap_t *map) {
   }
 }
 
-jdm_hashmap_status_t jdm_hashmap_iterator_next(jdm_hashmap_iterator_t it,
+jdm_hashmap_status_t jdm_hashmap_iterator_next(jdm_hashmap_iterator_t *it,
                                                jdm_hashmap_entry_t **out) {
-  if (!it.next) {
+  if (!it->next) {
     return JDM_HASHMAP_ERR_KEY_NOT_FOUND;
   }
 
-  it.prev = it.next;
-  it.next = it.next->next; // iterator next then entry next
+  it->prev = it->next;
+  it->next = it->next->next; // iterator next then entry next
 
-  if (it.next) {
-    *out = it.prev;
+  if (it->next) {
+    *out = it->prev;
     return JDM_HASHMAP_OK;
   }
 
-  for (sz i = it.bucket_idx + 1; i < it.map->capacity; i++) {
-    it.next = it.map->buckets[i];
-    if (it.next) {
-      it.bucket_idx = i;
+  for (sz i = it->bucket_idx + 1; i < it->map->capacity; i++) {
+    it->next = it->map->buckets[i];
+    if (it->next) {
+      it->bucket_idx = i;
       break;
     }
   }
 
-  *out = it.prev;
+  *out = it->prev;
   return JDM_HASHMAP_OK;
 }
 
-jdm_hashmap_status_t jdm_hashmap_iterator_remove(jdm_hashmap_iterator_t it,
+jdm_hashmap_status_t jdm_hashmap_iterator_remove(jdm_hashmap_iterator_t *it,
                                                  u8 **out) {
-  return jdm_hashmap_remove(it.map, it.prev->key, out);
+  return jdm_hashmap_remove(it->map, it->prev->key, out);
 }
 
-void jdm_hashmap_iterator_reset(jdm_hashmap_iterator_t it) {
-  for (sz i = 0; i < it.map->capacity; i++) {
-    jdm_hashmap_entry_t *e = it.map->buckets[i];
+void jdm_hashmap_iterator_reset(jdm_hashmap_iterator_t *it) {
+  for (sz i = 0; i < it->map->capacity; i++) {
+    jdm_hashmap_entry_t *e = it->map->buckets[i];
     if (e) {
-      it.bucket_idx = i;
-      it.next = e;
-      it.prev = JDM_NULL;
+      it->bucket_idx = i;
+      it->next = e;
+      it->prev = JDM_NULL;
       break;
     }
   }

@@ -68,10 +68,10 @@ typedef struct {
 } jdm_hashmap_iterator_t;
 
 jdm_hashmap_iterator_t jdm_hashmap_iterator_create(jdm_hashmap_t *map);
-jdm_hashmap_status_t jdm_hashmap_iterator_next(jdm_hashmap_iterator_t it,
+jdm_hashmap_status_t jdm_hashmap_iterator_next(jdm_hashmap_iterator_t *it,
                                                jdm_hashmap_entry_t **out);
-jdm_hashmap_status_t jdm_hashmap_iterator_remove(jdm_hashmap_iterator_t it,
+jdm_hashmap_status_t jdm_hashmap_iterator_remove(jdm_hashmap_iterator_t *it,
                                                  u8 **out);
-void jdm_hashmap_iterator_reset(jdm_hashmap_iterator_t it);
+void jdm_hashmap_iterator_reset(jdm_hashmap_iterator_t *it);
 
 #endif // JDM_HASHMAP_H

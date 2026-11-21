@@ -253,15 +253,15 @@ static b8 test_jdm_hashmap_iterator(void) {
 
   jdm_hashmap_entry_t *kv = JDM_NULL;
   s32 *v = jdm_alloc(alloc, sizeof(s32));
-  jdm_hashmap_iterator_next(it, &kv);
-  jdm_hashmap_iterator_remove(it, (u8 **)&v);
+  jdm_hashmap_iterator_next(&it, &kv);
+  jdm_hashmap_iterator_remove(&it, (u8 **)&v);
   if (*v != 43) {
     JDM_LOG_ERROR("v not equal to 43");
     jdm_free(alloc, v);
     destroy_test_ctx(ctx);
     return JDM_FALSE;
   }
-  jdm_hashmap_iterator_next(it, &kv);
+  jdm_hashmap_iterator_next(&it, &kv);
   jdm_free(alloc, v);
 
   destroy_test_ctx(ctx);
