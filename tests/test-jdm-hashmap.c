@@ -252,17 +252,29 @@ static b8 test_jdm_hashmap_iterator(void) {
   jdm_hashmap_iterator_t it = jdm_hashmap_iterator_create(map);
 
   jdm_hashmap_entry_t *kv = JDM_NULL;
-  s32 *v = jdm_alloc(alloc, sizeof(s32));
+  char* removed_key = JDM_NULL;
+  s32 *v = JDM_NULL;
   jdm_hashmap_iterator_next(&it, &kv);
-  jdm_hashmap_iterator_remove(&it, (u8 **)&v);
-  if (*v != 43) {
-    JDM_LOG_ERROR("v not equal to 43");
-    jdm_free(alloc, v);
+  JDM_LOG_INFO("kv->key: %s", kv->key);
+  jdm_hashmap_iterator_next(&it, &kv);
+  JDM_LOG_INFO("kv->key: %s", kv->key);
+  removed_key = kv->key;
+  jdm_hashmap_iterator_remove(&it, (u8**)&v);
+  JDM_LOG_INFO("v: %d", *v);
+  jdm_hashmap_iterator_next(&it, &kv);
+  JDM_LOG_INFO("kv->key: %s", kv->key);
+
+  if(jdm_hashmap_size(map) != 2) {
+    JDM_LOG_ERROR("hashmap size is not expected size.");
     destroy_test_ctx(ctx);
     return JDM_FALSE;
   }
-  jdm_hashmap_iterator_next(&it, &kv);
-  jdm_free(alloc, v);
+
+  if(jdm_hashmap_contains_key(map, removed_key)) {
+    JDM_LOG_ERROR("hashmap size is not expected size.");
+    destroy_test_ctx(ctx);
+    return JDM_FALSE;
+  }
 
   destroy_test_ctx(ctx);
   return JDM_TRUE;
@@ -284,6 +296,10 @@ int main() {
   }
   if (test_jdm_hashmap_for_each() != JDM_TRUE) {
     JDM_LOG_ERROR("Error in test_jdm_hashmap_for_each");
+    return 1;
+  }
+  if (test_jdm_hashmap_iterator() != JDM_TRUE) {
+    JDM_LOG_ERROR("Error in test_jdm_hashmap_iterator");
     return 1;
   }
   jdm_log_cleanup();

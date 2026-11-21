@@ -511,6 +511,7 @@ jdm_hashmap_iterator_t jdm_hashmap_iterator_create(jdm_hashmap_t *map) {
       break;
     }
   }
+  return it;
 }
 
 jdm_hashmap_status_t jdm_hashmap_iterator_next(jdm_hashmap_iterator_t *it,
