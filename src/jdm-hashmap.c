@@ -229,8 +229,8 @@ void jdm_hashmap_remove_all(jdm_hashmap_t *map) {
 b8 jdm_hashmap_contains_key(jdm_hashmap_t *map, u8 *key) {
   jdm_hashmap_entry_t *e = map->buckets[get_map_idx(map, key)];
 
-  while(e) {
-    if(map->key_compare(key, e->key) == 0) {
+  while (e) {
+    if (map->key_compare(key, e->key) == 0) {
       return JDM_TRUE;
     };
 
@@ -249,8 +249,7 @@ jdm_hashmap_status_t jdm_hashmap_get_keys(jdm_hashmap_t *map,
   jdm_array_t *keys = jdm_array_create((jdm_array_config_t){
       .alloc = map->alloc,
       .capacity = map->size,
-      .element_size = sizeof(
-          char *), // FIXME: come back and handle fixed sizes, not just strings
+      .element_size = map->key_length > 0 ? map->key_length : sizeof(u8 *),
       .exp_factor = 2,
   });
 
@@ -283,7 +282,7 @@ jdm_hashmap_status_t jdm_hashmap_get_values(jdm_hashmap_t *map,
   jdm_array_t *vals = jdm_array_create((jdm_array_config_t){
       .alloc = map->alloc,
       .capacity = map->size,
-      .element_size = map->value_length,
+      .element_size = map->value_length > 0 ? map->value_length : sizeof(u8 *),
       .exp_factor = 2,
   });
 

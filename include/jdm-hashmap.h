@@ -45,7 +45,7 @@ jdm_hashmap_status_t jdm_hashmap_add(jdm_hashmap_t *map, u8 *key, u8 *val);
 jdm_hashmap_status_t jdm_hashmap_get(jdm_hashmap_t *map, u8 *key, u8 **out);
 jdm_hashmap_status_t jdm_hashmap_remove(jdm_hashmap_t *map, u8 *key, u8 **out);
 void jdm_hashmap_remove_all(jdm_hashmap_t *map);
-b8 jdm_hashmap_contains_key(jdm_hashmap_t* map, u8* key);
+b8 jdm_hashmap_contains_key(jdm_hashmap_t *map, u8 *key);
 sz jdm_hashmap_size(jdm_hashmap_t *map);
 sz jdm_hashmap_capacity(jdm_hashmap_t *map);
 jdm_hashmap_status_t jdm_hashmap_get_keys(jdm_hashmap_t *map,
